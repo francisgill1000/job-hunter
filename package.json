@@ -1,0 +1,17 @@
+{
+  "name": "job-hunter",
+  "version": "1.0.0",
+  "description": "Automated daily job hunter for Laravel/React/Vue/Electron/React-Native jobs in UAE",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "hunt": "node src/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "open": "^8.4.2",
+    "puppeteer": "^24.0.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

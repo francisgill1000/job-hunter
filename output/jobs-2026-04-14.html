@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Job Hunt — Wednesday, 15 April 2026</title>
+<style>
+  :root {
+    --bg:      #0f0f1a;
+    --surface: #1a1a2e;
+    --card:    #16213e;
+    --border:  #2a2a4a;
+    --text:    #e2e8f0;
+    --muted:   #94a3b8;
+    --accent:  #6366f1;
+    --green:   #22c55e;
+    --yellow:  #eab308;
+    --red:     #ef4444;
+    --new:     #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px 12px;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .header-top {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 12px;
+  }
+  header h1 { font-size: 20px; color: var(--text); }
+  .header-meta { color: var(--muted); font-size: 13px; }
+  .counts { display: flex; gap: 12px; flex-wrap: wrap; }
+  .count-badge {
+    padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  }
+  .count-total  { background: var(--accent); color: #fff; }
+  .count-new    { background: var(--new);    color: #000; }
+
+  /* ── Stats pills ── */
+  .stats-row {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;
+  }
+  .stat-pill {
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 2px 10px; font-size: 12px; color: var(--muted);
+  }
+
+  /* ── Controls ── */
+  .controls {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  }
+  input[type=search] {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); padding: 6px 12px; border-radius: 6px;
+    outline: none; width: 220px; font-size: 13px;
+  }
+  input[type=search]:focus { border-color: var(--accent); }
+
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .filter-label { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 3px 10px; border-radius: 20px;
+    cursor: pointer; font-size: 12px; transition: all .15s;
+  }
+  .filter-btn:hover  { color: var(--text); border-color: #666; }
+  .filter-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+
+  .toggle-btn {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); padding: 4px 12px; border-radius: 6px;
+    cursor: pointer; font-size: 12px; margin-left: auto;
+  }
+  .toggle-btn.active { color: var(--new); border-color: var(--new); }
+
+  /* ── Grid ── */
+  main { padding: 20px 24px; }
+  #result-count { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Job Card ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: border-color .15s, transform .1s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card.hidden { display: none; }
+
+  .card-header {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .platform-badge {
+    padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .date { color: var(--muted); font-size: 11px; margin-left: auto; }
+
+  .job-title {
+    font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3;
+  }
+  .meta { display: flex; flex-direction: column; gap: 2px; }
+  .company, .location { font-size: 12px; color: var(--muted); }
+
+  .salary-row { }
+  .badge {
+    display: inline-block; padding: 2px 10px;
+    border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .badge-good    { background: #14532d; color: var(--green); }
+  .badge-low     { background: #422006; color: var(--yellow); }
+  .badge-unknown { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+  .badge-new     { background: #78350f; color: var(--new); }
+
+  .tags-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tag {
+    padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600;
+  }
+
+  .apply-btn {
+    display: block; margin-top: 4px;
+    background: var(--accent);
+    color: #fff; text-decoration: none;
+    padding: 7px 14px; border-radius: 6px;
+    font-size: 13px; font-weight: 600; text-align: center;
+    transition: opacity .15s;
+  }
+  .apply-btn:hover { opacity: .85; }
+
+  /* ── Empty state ── */
+  #empty {
+    text-align: center; padding: 60px 20px;
+    color: var(--muted); display: none;
+  }
+  #empty h2 { font-size: 18px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <h1>Job Hunt Results</h1>
+    <div class="counts">
+      <span class="count-badge count-total">41 jobs found</span>
+      <span class="count-badge count-new">32 new today</span>
+    </div>
+    <span class="header-meta">Searched: Wednesday, 15 April 2026 &nbsp;|&nbsp; Min salary: 7,000 AED</span>
+  </div>
+
+  <div class="stats-row"><div class="stat-pill" style="border-color:#0a66c2">LinkedIn: <strong>32</strong></div><div class="stat-pill" style="border-color:#2164f3">Indeed: <strong>9</strong></div></div>
+  <div class="stats-row"><div class="stat-pill">Full-Stack: <strong>14</strong></div><div class="stat-pill">Frontend: <strong>8</strong></div><div class="stat-pill">Mobile: <strong>5</strong></div><div class="stat-pill">React: <strong>4</strong></div><div class="stat-pill">Backend: <strong>3</strong></div><div class="stat-pill">React Native: <strong>2</strong></div><div class="stat-pill">JavaScript: <strong>1</strong></div><div class="stat-pill">Laravel: <strong>1</strong></div><div class="stat-pill">Node.js: <strong>1</strong></div></div>
+
+  <div class="controls">
+    <input type="search" id="search-box" placeholder="Search title / company…">
+
+    <div class="filter-group">
+      <span class="filter-label">Platform:</span>
+      <button class="filter-btn" data-filter="platform" data-value="LinkedIn" style="border-color:#0a66c2">LinkedIn</button><button class="filter-btn" data-filter="platform" data-value="Indeed" style="border-color:#2164f3">Indeed</button>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Tech:</span>
+      <button class="filter-btn" data-filter="tag" data-value="Backend">Backend</button><button class="filter-btn" data-filter="tag" data-value="Frontend">Frontend</button><button class="filter-btn" data-filter="tag" data-value="Full-Stack">Full-Stack</button><button class="filter-btn" data-filter="tag" data-value="JavaScript">JavaScript</button><button class="filter-btn" data-filter="tag" data-value="Laravel">Laravel</button><button class="filter-btn" data-filter="tag" data-value="Mobile">Mobile</button><button class="filter-btn" data-filter="tag" data-value="Node.js">Node.js</button><button class="filter-btn" data-filter="tag" data-value="React">React</button><button class="filter-btn" data-filter="tag" data-value="React Native">React Native</button>
+    </div>
+
+    <button class="toggle-btn" id="new-only-btn">Show new only</button>
+  </div>
+</header>
+
+<main>
+  <div id="result-count"></div>
+  <div class="grid" id="grid">
+    <div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Front End Developer</h3>
+    <div class="meta"><span class="company">🏢 Maaloomatiia</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/front-end-developer-at-maaloomatiia-4387522405?position=4&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=3WQh%2FN68wEObJV4qmHkI9w%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Frontend Developer</h3>
+    <div class="meta"><span class="company">🏢 Wonnpay</span><span class="location">📍 Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-developer-at-wonnpay-4399725238?position=6&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=Np0N1pM8xeTvIYTxuSF3pg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Frontend Engineer (Remote)</h3>
+    <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-engineer-remote-at-joveo-ai-4401773182?position=9&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=N%2FCHhOts%2FVJJkXrMDRj5kw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Web Developer</h3>
+    <div class="meta"><span class="company">🏢 Big Ticket</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/web-developer-at-big-ticket-4370620671?position=10&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=%2Bd94BcUgoONXpXU%2BnV2a0w%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="JavaScript" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">JavaScript Developer (Remote)</h3>
+    <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#f7df1e;color:#111">JavaScript</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/javascript-developer-remote-at-joveo-ai-4401747870?position=11&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=kYXXWUFwY4DuEZIxRI%2FBlQ%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Full Stack Engineer</h3>
+    <div class="meta"><span class="company">🏢 Wonnpay</span><span class="location">📍 Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-at-wonnpay-4399751086?position=12&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=cqCMBYdz%2FC1FYRkGwbBsRw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Full Stack Developer (Remote)</h3>
+    <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-remote-at-joveo-ai-4401745856?position=13&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=n2UHWDYdUOLN6WqLupx7Ng%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="React,Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Full Stack Engineer (React &amp; Python)</h3>
+    <div class="meta"><span class="company">🏢 Anix Global</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-react-python-at-anix-global-4402012139?position=15&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=LM2LbHl3eu5oKRtKm5PmJg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Senior Full Stack Engineer</h3>
+    <div class="meta"><span class="company">🏢 Open Innovation AI</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-full-stack-engineer-at-open-innovation-ai-4399727331?position=16&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=y39XSqy1w%2FAx3jA%2FK2H8Zg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">WordPress Website Developer</h3>
+    <div class="meta"><span class="company">🏢 Hassi Properties</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/wordpress-website-developer-at-hassi-properties-4400785204?position=18&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=zSdRe%2Ba%2FkpPWqVfEsajtWA%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Full Stack Developer</h3>
+    <div class="meta"><span class="company">🏢 Talent Blueprint FZ LLC</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-at-talent-blueprint-fz-llc-4401728790?position=19&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=lpQ8BR%2Bg0ClxElaqMDIyOw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Full Stack Developer (Remote)</h3>
+    <div class="meta"><span class="company">🏢 Jobs Ai</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-remote-at-jobs-ai-4402061074?position=21&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=7mo2OMRVtns%2B4ENxj7E5IA%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="React Native,React,Mobile" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Mobile Developer (React Native) (Remote)</h3>
+    <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#20232a;color:#111">React Native</span> <span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/mobile-developer-react-native-remote-at-joveo-ai-4401765443?position=22&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=FHVKTTj1XfuQM%2FsUB3S3aA%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Developer Relations P2P (100% remote)</h3>
+    <div class="meta"><span class="company">🏢 Tether.io</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/developer-relations-p2p-100%25-remote-at-tether-io-4379233593?position=26&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=WKfBDQZSrDRUeKcPE9LEVQ%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Senior UI/UX Designer</h3>
+    <div class="meta"><span class="company">🏢 Bamboo Card</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-ui-ux-designer-at-bamboo-card-4399747728?position=27&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=5wog33UBY3BdmBpcSUBhHQ%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Backend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Backend Engineer - Wallets (100% Remote)</h3>
+    <div class="meta"><span class="company">🏢 Tether.io</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/backend-engineer-wallets-100%25-remote-at-tether-io-4371267062?position=7&amp;pageNum=0&amp;refId=NRUTBOaO9IEn4aHpXnHAZA%3D%3D&amp;trackingId=FTKbNd6WSaeVG%2B4h7XVdOQ%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Mobile" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Senior Mobile Engineer</h3>
+    <div class="meta"><span class="company">🏢 Fuse Energy</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-mobile-engineer-at-fuse-energy-4389492305?position=5&amp;pageNum=0&amp;refId=aLp3a0UynsJPMK%2Fl%2Brvlgw%3D%3D&amp;trackingId=2J01scGNgkTEJoVrOVXwKw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-14</span>
+    </div>
+    <h3 class="job-title">Magento eCommerce Developer - Remote</h3>
+    <div class="meta"><span class="company">🏢 YO IT Consulting</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/magento-ecommerce-developer-remote-at-yo-it-consulting-4400038507?position=9&amp;pageNum=0&amp;refId=aLp3a0UynsJPMK%2Fl%2Brvlgw%3D%3D&amp;trackingId=o4AobwGt4x2Uv6qUzFw2tA%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Laravel" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Senior Laravel Developer</h3>
+    <div class="meta"><span class="company">🏢 EVOLVEX TECHNOLOGY</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ff4d4d;color:#fff">Laravel</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-laravel-developer-at-evolvex-technology-4399537104?position=1&amp;pageNum=0&amp;refId=EslYOu0ntR7tsd9AMCT4iA%3D%3D&amp;trackingId=kBbUN21wcBfh9Ne3JB7%2FBg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Backend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Senior Backend / Workflow Engineer (m/f/d)</h3>
+    <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-backend-workflow-engineer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399620590?position=2&amp;pageNum=0&amp;refId=EslYOu0ntR7tsd9AMCT4iA%3D%3D&amp;trackingId=pUmRve5XYVU487WgAqhUjA%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Hiring For Front End Developer</h3>
+    <div class="meta"><span class="company">🏢 Shine.com</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/hiring-for-front-end-developer-at-shine-com-4399159264?position=2&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=SAX8j%2Fakc6lYjrTCc8xSHg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Remote Junior Front-End Developer</h3>
+    <div class="meta"><span class="company">🏢 PULSE (EMEA REGION)</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/remote-junior-front-end-developer-at-pulse-emea-region-4401585111?position=3&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=QYDqelqRqkYoRLr7rgzsyg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Full Stack Engineer</h3>
+    <div class="meta"><span class="company">🏢 Salt</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-at-salt-4399518484?position=14&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=o7Z4Arcm5a0F8JjCU6MrSQ%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="React,Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Fullstack Engineer - Python &amp; React (m/f/d)</h3>
+    <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/fullstack-engineer-python-react-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399631240?position=23&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=2Ie6eiW0VwB5s%2FJuIOGlxg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="React Native,React,Mobile" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">React Native Mobile Developer (m/f/d)</h3>
+    <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#20232a;color:#111">React Native</span> <span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/react-native-mobile-developer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399625490?position=24&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=yF0dQFpyQL8CyW3pzv9Nlw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Node.js,Backend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Senior Backend Developer - Node.js</h3>
+    <div class="meta"><span class="company">🏢 Jobgether</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#68a063;color:#fff">Node.js</span> <span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-backend-developer-node-js-at-jobgether-4399632814?position=25&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=zJpQb7hQthe6k6ITnnWEAg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Senior Frontend Engineer</h3>
+    <div class="meta"><span class="company">🏢 Analog</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-frontend-engineer-at-analog-4401095223?position=4&amp;pageNum=0&amp;refId=NRUTBOaO9IEn4aHpXnHAZA%3D%3D&amp;trackingId=NPMJZis6nH%2Bv3yHRoD8xIw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Mobile" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Mobile Developer Jobs In Luxembourg-Canada-Australia-New Zealand-Ireland-Sweden</h3>
+    <div class="meta"><span class="company">🏢 Shine.com</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/mobile-developer-jobs-in-luxembourg-canada-australia-new-zealand-ireland-sweden-at-shine-com-4399159266?position=2&amp;pageNum=0&amp;refId=aLp3a0UynsJPMK%2Fl%2Brvlgw%3D%3D&amp;trackingId=eTwYwY%2Be7CTdcAg8%2BkszCw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-13</span>
+    </div>
+    <h3 class="job-title">Senior Software Engineer - Frontend - Onchain</h3>
+    <div class="meta"><span class="company">🏢 Kraken</span><span class="location">📍 United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-software-engineer-frontend-onchain-at-kraken-4360037871?position=13&amp;pageNum=0&amp;refId=aLp3a0UynsJPMK%2Fl%2Brvlgw%3D%3D&amp;trackingId=lGIRzSCjwAy9Lp5n8QLLxA%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Frontend" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-12</span>
+    </div>
+    <h3 class="job-title">Junior Front-End Developer - Remote</h3>
+    <div class="meta"><span class="company">🏢 PULSE (EMEA REGION)</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/junior-front-end-developer-remote-at-pulse-emea-region-4401023440?position=1&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=4tXTgszQm3CDWGKzYYOnNg%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-12</span>
+    </div>
+    <h3 class="job-title">Full-Stack Developer</h3>
+    <div class="meta"><span class="company">🏢 Cyan Recruitment</span><span class="location">📍 Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-at-cyan-recruitment-4399387100?position=17&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=R%2Bh9WaLOJzS6rAl41N9kAw%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack,Mobile" data-platform="LinkedIn" data-new="1">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#0a66c2">LinkedIn</span>
+      <span class="badge badge-new">🆕 NEW</span>
+      <span class="date">2026-04-12</span>
+    </div>
+    <h3 class="job-title">Senior Full Stack Product Engineer (Web + Mobile + AI)</h3>
+    <div class="meta"><span class="company">🏢 Unibuild Garage L.L.C</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span> <span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-full-stack-product-engineer-web-%2B-mobile-%2B-ai-at-unibuild-garage-l-l-c-4399357278?position=20&amp;pageNum=0&amp;refId=irokdD4KM9C0DJwCowdJrA%3D%3D&amp;trackingId=lCQcF1X%2BvacfTewll4bs0w%3D%3D" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Full Stack Developer</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=915058c604339385" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Project-based Software Developer</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=17d361c2315c29de" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">WordPress WooCommerce Developer - Remote</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=71ec5cd693672c9c" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Shopify Developer - Remote</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=2112480c3f286ab4" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Full-Stack Developer - Finance &amp; HR Systems</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=513cddf373441e33" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Web Development Lead</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=ccdf942287a8ee8c" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Magento eCommerce Developer - Remote</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=9e5d2733b8c87918" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Full-Stack Developer - Government Integrations &amp; Compliance</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=1cbe9a12082b0a3d" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+    <div class="card-header">
+      <span class="platform-badge" style="background:#2164f3">Indeed</span>
+      
+      
+    </div>
+    <h3 class="job-title">Senior Full-Stack Developer (Technical Lead)</h3>
+    <div class="meta"></div>
+    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=7f39a8455e7e8b2e" target="_blank" rel="noopener">
+      View &amp; Apply →
+    </a>
+  </div>
+  </div>
+  <div id="empty">
+    <h2>No jobs match your filters</h2>
+    <p>Try removing some filters or running the hunt again tomorrow.</p>
+  </div>
+</main>
+
+<script>
+(function () {
+  const grid        = document.getElementById('grid');
+  const searchBox   = document.getElementById('search-box');
+  const newOnlyBtn  = document.getElementById('new-only-btn');
+  const resultCount = document.getElementById('result-count');
+  const emptyState  = document.getElementById('empty');
+
+  const state = {
+    query:      '',
+    platforms:  new Set(),
+    tags:       new Set(),
+    newOnly:    false,
+  };
+
+  function applyFilters() {
+    const cards  = grid.querySelectorAll('.card');
+    let visible  = 0;
+
+    cards.forEach((card) => {
+      const title    = card.querySelector('.job-title')?.textContent?.toLowerCase() || '';
+      const company  = card.querySelector('.company')?.textContent?.toLowerCase() || '';
+      const platform = card.dataset.platform || '';
+      const tags     = card.dataset.tags ? card.dataset.tags.split(',') : [];
+      const isNew    = card.dataset.new === '1';
+
+      let show = true;
+
+      // Text search
+      if (state.query) {
+        const q = state.query.toLowerCase();
+        if (!title.includes(q) && !company.includes(q)) show = false;
+      }
+
+      // Platform filter (OR logic — any selected platform matches)
+      if (show && state.platforms.size > 0) {
+        if (!state.platforms.has(platform)) show = false;
+      }
+
+      // Tag filter (AND logic — all selected tags must be present)
+      if (show && state.tags.size > 0) {
+        for (const t of state.tags) {
+          if (!tags.includes(t)) { show = false; break; }
+        }
+      }
+
+      // New-only toggle
+      if (show && state.newOnly && !isNew) show = false;
+
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    resultCount.textContent = `Showing ${visible} of 41 jobs`;
+    emptyState.style.display = visible === 0 ? 'block' : 'none';
+    grid.style.display       = visible === 0 ? 'none'  : '';
+  }
+
+  // Search input
+  searchBox.addEventListener('input', (e) => {
+    state.query = e.target.value.trim();
+    applyFilters();
+  });
+
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const type  = btn.dataset.filter;
+      const value = btn.dataset.value;
+      const set   = type === 'platform' ? state.platforms : state.tags;
+
+      if (set.has(value)) {
+        set.delete(value);
+        btn.classList.remove('active');
+      } else {
+        set.add(value);
+        btn.classList.add('active');
+      }
+      applyFilters();
+    });
+  });
+
+  // New-only toggle
+  newOnlyBtn.addEventListener('click', () => {
+    state.newOnly = !state.newOnly;
+    newOnlyBtn.classList.toggle('active', state.newOnly);
+    newOnlyBtn.textContent = state.newOnly ? 'Show all' : 'Show new only';
+    applyFilters();
+  });
+
+  applyFilters();
+})();
+</script>
+</body>
+</html>
