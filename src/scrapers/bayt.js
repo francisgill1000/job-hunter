@@ -4,7 +4,7 @@
  */
 const { newPage } = require('../browser');
 const config = require('../../config');
-const { sleep, extractTags, parseSalaryAED } = require('../utils');
+const { sleep, randomDelay, extractTags, parseSalaryAED } = require('../utils');
 const chalk = require('chalk');
 
 // Map our generic keywords to Bayt's URL slug format

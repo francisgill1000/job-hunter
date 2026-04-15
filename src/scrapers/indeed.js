@@ -3,7 +3,7 @@
  */
 const { newPage } = require('../browser');
 const config = require('../../config');
-const { sleep, extractTags, parseSalaryAED } = require('../utils');
+const { sleep, randomDelay, extractTags, parseSalaryAED } = require('../utils');
 const chalk = require('chalk');
 
 async function scrapeIndeed(keyword) {
@@ -88,7 +88,7 @@ async function run() {
   for (const keyword of config.keywords) {
     const jobs = await scrapeIndeed(keyword);
     allJobs.push(...jobs);
-    await sleep(config.delayBetweenMs);
+    await randomDelay(...config.delayBetweenMs);
   }
   return allJobs;
 }

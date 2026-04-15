@@ -7,6 +7,12 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Random delay between min and max ms — makes scraping look more human
+function randomDelay(minMs, maxMs) {
+  const ms = Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
+  return sleep(ms);
+}
+
 // ── Tech tag extraction ──────────────────────────────────────────────────────
 const TAG_MAP = [
   { pattern: /laravel/i,        tag: 'Laravel' },
@@ -106,4 +112,4 @@ function sortByNewest(jobs) {
   });
 }
 
-module.exports = { sleep, extractTags, parseSalaryAED, dedup, passesSalaryFilter, sortByNewest };
+module.exports = { sleep, randomDelay, extractTags, parseSalaryAED, dedup, passesSalaryFilter, sortByNewest };

@@ -30,7 +30,7 @@ module.exports = {
   // ── Browser ─────────────────────────────────────────────────────
   headless: false,          // set false to watch the browser
   timeout: 35000,          // ms to wait for a page to load
-  delayBetweenMs: 2500,    // ms pause between requests (be polite)
+  delayBetweenMs: [2000, 5000],  // random range ms between requests (looks human)
 
   // ── Output paths ────────────────────────────────────────────────
   outputDir: './output',

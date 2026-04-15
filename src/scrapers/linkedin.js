@@ -4,7 +4,7 @@
  */
 const { newPage } = require('../browser');
 const config = require('../../config');
-const { sleep, extractTags } = require('../utils');
+const { randomDelay, extractTags } = require('../utils');
 const chalk = require('chalk');
 
 const BASE = 'https://www.linkedin.com/jobs/search/';
@@ -91,7 +91,7 @@ async function run() {
   for (const keyword of config.keywords) {
     const jobs = await scrapeLinkedIn(keyword);
     allJobs.push(...jobs);
-    await sleep(config.delayBetweenMs);
+    await randomDelay(...config.delayBetweenMs);
   }
   return allJobs;
 }

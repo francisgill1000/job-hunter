@@ -226,7 +226,7 @@ function buildReport(jobs, date, minSalary) {
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     gap: 16px;
   }
 
@@ -288,6 +288,36 @@ function buildReport(jobs, date, minSalary) {
     color: var(--muted); display: none;
   }
   #empty h2 { font-size: 18px; margin-bottom: 8px; }
+
+  /* ── Mobile ── */
+  @media (max-width: 600px) {
+    header { padding: 12px 14px 10px; }
+    header h1 { font-size: 17px; }
+    .header-meta { font-size: 11px; }
+    .header-top { gap: 8px; margin-bottom: 8px; }
+
+    .stats-row { gap: 5px; margin-bottom: 6px; }
+
+    .controls { gap: 8px; }
+    input[type=search] { width: 100%; font-size: 16px; /* prevents iOS zoom */ }
+
+    .filter-group { gap: 5px; }
+    .filter-btn, .toggle-btn { padding: 6px 12px; font-size: 12px; min-height: 34px; }
+    .toggle-btn { margin-left: 0; }
+
+    main { padding: 14px; }
+    .grid { grid-template-columns: 1fr; gap: 12px; }
+
+    .card { padding: 14px; }
+    .job-title { font-size: 15px; }
+
+    .apply-btn {
+      padding: 12px 14px;
+      font-size: 15px;
+      min-height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+  }
 </style>
 </head>
 <body>
