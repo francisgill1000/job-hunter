@@ -92,7 +92,7 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     gap: 16px;
   }
 
@@ -154,6 +154,36 @@
     color: var(--muted); display: none;
   }
   #empty h2 { font-size: 18px; margin-bottom: 8px; }
+
+  /* ── Mobile ── */
+  @media (max-width: 600px) {
+    header { padding: 12px 14px 10px; }
+    header h1 { font-size: 17px; }
+    .header-meta { font-size: 11px; }
+    .header-top { gap: 8px; margin-bottom: 8px; }
+
+    .stats-row { gap: 5px; margin-bottom: 6px; }
+
+    .controls { gap: 8px; }
+    input[type=search] { width: 100%; font-size: 16px; /* prevents iOS zoom */ }
+
+    .filter-group { gap: 5px; }
+    .filter-btn, .toggle-btn { padding: 6px 12px; font-size: 12px; min-height: 34px; }
+    .toggle-btn { margin-left: 0; }
+
+    main { padding: 14px; }
+    .grid { grid-template-columns: 1fr; gap: 12px; }
+
+    .card { padding: 14px; }
+    .job-title { font-size: 15px; }
+
+    .apply-btn {
+      padding: 12px 14px;
+      font-size: 15px;
+      min-height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+  }
 </style>
 </head>
 <body>
@@ -201,7 +231,7 @@
     <div class="meta"><span class="company">🏢 Windmills Group</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/software-developer-at-windmills-group-4399914727?position=1&amp;pageNum=0&amp;refId=%2BN7ea2prQVmjF%2FtFfArFOA%3D%3D&amp;trackingId=YiC4cGlWOI%2FwMWL%2FM6Yk6Q%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/software-developer-at-windmills-group-4399914727?position=1&amp;pageNum=0&amp;refId=dH40z0525BhOaizQ%2FBtoBg%3D%3D&amp;trackingId=fOR5dv1u7bMni9ISW6tPSw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -215,7 +245,7 @@
     <div class="meta"><span class="company">🏢 SANIPEX GROUP</span><span class="location">📍 Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-developer-at-sanipex-group-4402248419?position=4&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=faMhDV6wUnzDJvKl2%2FFUfA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-developer-at-sanipex-group-4402248419?position=4&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=3cxkOiIuNiJ%2FaY9XQw%2F6Qw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -229,7 +259,7 @@
     <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-engineer-remote-at-joveo-ai-4402274488?position=5&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=ik9wTDaCJRG%2BTVPYUtxJgQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-engineer-remote-at-joveo-ai-4402274488?position=5&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=jhbUvj39bb9pePjoEFPQHA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -243,7 +273,7 @@
     <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#f7df1e;color:#111">JavaScript</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/javascript-developer-remote-at-joveo-ai-4402271176?position=6&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=ycjFeDwT%2BUPYzR%2BpdtPfmQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/javascript-developer-remote-at-joveo-ai-4402271176?position=6&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=3naJ1eR0Z1S%2BFrxJhAxnPQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -257,7 +287,7 @@
     <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-remote-at-joveo-ai-4402273024?position=8&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=5JxkAWm8FEJNjkS1pFAqlA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-remote-at-joveo-ai-4402273024?position=8&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=ZlR09EhoKPlgS8kshew8Ow%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -271,7 +301,7 @@
     <div class="meta"><span class="company">🏢 Scale AI</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-software-engineer-forward-deployed-gps-at-scale-ai-4389779998?position=9&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=ILBi%2Bw55EIP7ayyXEE1ymA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-software-engineer-forward-deployed-gps-at-scale-ai-4389779998?position=9&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=fIk0U42%2BtWDYT%2FRbJNQj2Q%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -285,7 +315,7 @@
     <div class="meta"><span class="company">🏢 ESTIDAMA UAE</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-at-estidama-uae-4402240264?position=13&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=OKfEJLPoZ2yDYA1ItXKVRA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-at-estidama-uae-4402240264?position=13&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=Ut22C2Q2mgorDQiMtez5Lg%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -299,7 +329,7 @@
     <div class="meta"><span class="company">🏢 Salt</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-engineer-emirati-at-salt-4399941403?position=14&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=zOAo5fAhZIWRhro9YgTKFw%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/frontend-engineer-emirati-at-salt-4399941403?position=14&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=MNR5k8Pm7%2BihCUsoKmGJMw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -313,7 +343,7 @@
     <div class="meta"><span class="company">🏢 Jobs Ai</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-remote-at-jobs-ai-4402282877?position=15&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=A3Lxr3ZlgVS81ZSK3TIfLg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-remote-at-jobs-ai-4402282877?position=15&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=3Blh0wm8a9wyCucUllFOsg%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -327,7 +357,7 @@
     <div class="meta"><span class="company">🏢 Ampersand Information Technology</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-at-ampersand-information-technology-4402293304?position=16&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=TeMZsYw1GMJqSGQ0DXDf5g%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-at-ampersand-information-technology-4402293304?position=16&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=zE5GKc0RbrgMypSCkCZEGQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -341,7 +371,7 @@
     <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4401422854?position=17&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=kAaLH02L3AdNocEZCY%2F%2B1w%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4401422854?position=17&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=ZCJSdQ48jgIl%2FHNnJW9HHw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -355,7 +385,7 @@
     <div class="meta"><span class="company">🏢 Scale AI</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-full-stack-software-engineer-forward-deployed-gps-at-scale-ai-4389786642?position=18&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=siQZc%2FRWkrtSfyTQCztQJg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-full-stack-software-engineer-forward-deployed-gps-at-scale-ai-4389786642?position=18&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=WySvDDa1Mgv4BDAxqVyzTQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -369,7 +399,7 @@
     <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/fullstack-engineer-python-react-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4401172995?position=19&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=vcNvvbvOVU5azyVg6DNmKw%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/fullstack-engineer-python-react-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4401172995?position=19&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=7gd63WkIc612C4TsTohWGg%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -383,7 +413,7 @@
     <div class="meta"><span class="company">🏢 Joveo Ai</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#20232a;color:#111">React Native</span> <span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/mobile-developer-react-native-remote-at-joveo-ai-4402260961?position=21&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=vRABaVR6g1NJyxn0HEMxzg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/mobile-developer-react-native-remote-at-joveo-ai-4402260961?position=21&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=gTqVttyal9jx28PbVm83WA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -397,7 +427,7 @@
     <div class="meta"><span class="company">🏢 SEGULA Technologies</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-software-developer-%E2%80%93-railway-ticketing-system-web-mobile-at-segula-technologies-4378161582?position=22&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=PzyHLAdO4y7LgIGYNR7%2FNQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-software-developer-%E2%80%93-railway-ticketing-system-web-mobile-at-segula-technologies-4378161582?position=22&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=O9mE4HbikbBczAI0UU7M1Q%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -411,7 +441,7 @@
     <div class="meta"><span class="company">🏢 Salt</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-emirati-at-salt-4399939544?position=24&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=xHSQd4EzB%2BpEVKqFr6q6Hg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-emirati-at-salt-4399939544?position=24&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=tXuSQ0fEAer0rTyIVXinGQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -425,7 +455,7 @@
     <div class="meta"><span class="company">🏢 Jobgether</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/developer-advocate-p2p-at-jobgether-4401189860?position=25&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=Kl8iGvFWhZ0aR9iAX%2B8TXw%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/developer-advocate-p2p-at-jobgether-4401189860?position=25&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=BzMH9VPcPMVR3OhPShf5%2Fg%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -439,7 +469,7 @@
     <div class="meta"><span class="company">🏢 QuantumGate</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-web-applications-developer-at-quantumgate-4399969338?position=4&amp;pageNum=0&amp;refId=3889dhqQzdHCMbuaJztkVw%3D%3D&amp;trackingId=s5Ir9xifKy%2BiDxtk5kvtIA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-web-applications-developer-at-quantumgate-4399969338?position=4&amp;pageNum=0&amp;refId=PWTLX5ODh4DYtAH7vbvTvg%3D%3D&amp;trackingId=v0nIj3kuifEB7EDi9nlKvw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -453,7 +483,7 @@
     <div class="meta"><span class="company">🏢 Tether.io</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/backend-engineer-wallets-100%25-remote-worldwide-at-tether-io-4383755006?position=10&amp;pageNum=0&amp;refId=3889dhqQzdHCMbuaJztkVw%3D%3D&amp;trackingId=XGq6ewDRhyc326sLzZh7jg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/backend-engineer-wallets-100%25-remote-worldwide-at-tether-io-4383755006?position=10&amp;pageNum=0&amp;refId=PWTLX5ODh4DYtAH7vbvTvg%3D%3D&amp;trackingId=ke5R1DPKtF3%2FcoHRBOQzTw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -467,7 +497,7 @@
     <div class="meta"><span class="company">🏢 edari</span><span class="location">📍 Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/gis-tech-lead-at-edari-4402246214?position=7&amp;pageNum=0&amp;refId=JTAiieZEL%2BQMOvVMLVuSwQ%3D%3D&amp;trackingId=Cc0khmkc2WvEPYSCKNWXoQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/gis-tech-lead-at-edari-4402246214?position=7&amp;pageNum=0&amp;refId=bQTctO4U0edSvWAKu0US%2BA%3D%3D&amp;trackingId=zIe%2BFtZlUt%2BwPU%2BSBMRLig%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -481,7 +511,7 @@
     <div class="meta"><span class="company">🏢 YO IT Consulting</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/shopify-developer-remote-at-yo-it-consulting-4401137946?position=8&amp;pageNum=0&amp;refId=JTAiieZEL%2BQMOvVMLVuSwQ%3D%3D&amp;trackingId=Hg1wjq3zHQvvrTCGaEpCQg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/shopify-developer-remote-at-yo-it-consulting-4401137946?position=8&amp;pageNum=0&amp;refId=bQTctO4U0edSvWAKu0US%2BA%3D%3D&amp;trackingId=fnl%2BPZPmWuHxriBEQijsXQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -495,7 +525,7 @@
     <div class="meta"><span class="company">🏢 YO IT Consulting</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/wordpress-woocommerce-developer-remote-at-yo-it-consulting-4401156038?position=13&amp;pageNum=0&amp;refId=JTAiieZEL%2BQMOvVMLVuSwQ%3D%3D&amp;trackingId=jbOkp9rsD3%2F1xvkOnd4AmQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/wordpress-woocommerce-developer-remote-at-yo-it-consulting-4401156038?position=13&amp;pageNum=0&amp;refId=bQTctO4U0edSvWAKu0US%2BA%3D%3D&amp;trackingId=fK95LaLjkdFV2y0WpgahJQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -509,7 +539,7 @@
     <div class="meta"><span class="company">🏢 Maaloomatiia</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/front-end-developer-at-maaloomatiia-4387522405?position=2&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=wsZd%2FkJBDiXDJaKjyGcUrQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/front-end-developer-at-maaloomatiia-4387522405?position=2&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=obHcCvnMnQQNSljmmNvpWQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -523,7 +553,7 @@
     <div class="meta"><span class="company">🏢 Big Ticket</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/web-developer-at-big-ticket-4370620671?position=7&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=MsXYXjdnc%2F4%2BE7j8XHrKig%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/web-developer-at-big-ticket-4370620671?position=7&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=CaLh2rnSnijQGNgGKADS5Q%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -537,7 +567,7 @@
     <div class="meta"><span class="company">🏢 Anix Global</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-react-python-at-anix-global-4402012139?position=11&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=rZ8%2BRoCjB56q1U%2BGvPW93Q%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-react-python-at-anix-global-4402012139?position=11&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=ZcIiYn01e%2FV%2BUMI1QBn30A%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -551,7 +581,7 @@
     <div class="meta"><span class="company">🏢 Open Innovation AI</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-full-stack-engineer-at-open-innovation-ai-4399727331?position=12&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=DJ6IfdEPyc4PDy%2B18TYvVQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-full-stack-engineer-at-open-innovation-ai-4399727331?position=12&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=427sUAPTCn%2FC8gtib%2FWE9A%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -565,7 +595,7 @@
     <div class="meta"><span class="company">🏢 Talent Blueprint FZ LLC</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-at-talent-blueprint-fz-llc-4401728790?position=20&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=VXChC0TvKyPiB6lvIROfHg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-developer-at-talent-blueprint-fz-llc-4401728790?position=20&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=G1MyU2E1f4Dv4TZf1cbCWw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -579,7 +609,7 @@
     <div class="meta"><span class="company">🏢 Tether.io</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/developer-relations-p2p-100%25-remote-at-tether-io-4379233593?position=27&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=JN%2FWLWZ2gJ7db5Fwc8DwPQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/developer-relations-p2p-100%25-remote-at-tether-io-4379233593?position=27&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=Yr%2BARNLVWMpatzzy5xcv3Q%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -593,7 +623,7 @@
     <div class="meta"><span class="company">🏢 Bamboo Card</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-ui-ux-designer-at-bamboo-card-4399747728?position=28&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=kqzCLmwKynQgh1yYrBOCFA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-ui-ux-designer-at-bamboo-card-4399747728?position=28&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=8bsl35HdG8Ij8UMUvV8hLw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -607,7 +637,7 @@
     <div class="meta"><span class="company">🏢 Tether.io</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/backend-engineer-wallets-100%25-remote-at-tether-io-4371267062?position=11&amp;pageNum=0&amp;refId=3889dhqQzdHCMbuaJztkVw%3D%3D&amp;trackingId=P%2FwmExtXVCTl%2Fj9%2BBDp7ZA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/backend-engineer-wallets-100%25-remote-at-tether-io-4371267062?position=11&amp;pageNum=0&amp;refId=PWTLX5ODh4DYtAH7vbvTvg%3D%3D&amp;trackingId=X3Zxf5y5Aqx9JI3yaIvHLw%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -621,7 +651,7 @@
     <div class="meta"><span class="company">🏢 Fuse Energy</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-mobile-engineer-at-fuse-energy-4389492305?position=4&amp;pageNum=0&amp;refId=JTAiieZEL%2BQMOvVMLVuSwQ%3D%3D&amp;trackingId=%2BeeLKw5rFYdegS1QyUJRaQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-mobile-engineer-at-fuse-energy-4389492305?position=4&amp;pageNum=0&amp;refId=bQTctO4U0edSvWAKu0US%2BA%3D%3D&amp;trackingId=r1bXzt9K8yCe8gd70F1GgA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -635,7 +665,7 @@
     <div class="meta"><span class="company">🏢 YO IT Consulting</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/magento-ecommerce-developer-remote-at-yo-it-consulting-4400038507?position=12&amp;pageNum=0&amp;refId=JTAiieZEL%2BQMOvVMLVuSwQ%3D%3D&amp;trackingId=Hqfuw7g53YfQ84t8cfRwrg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/magento-ecommerce-developer-remote-at-yo-it-consulting-4400038507?position=12&amp;pageNum=0&amp;refId=bQTctO4U0edSvWAKu0US%2BA%3D%3D&amp;trackingId=7KQf704Bn9AfPM9v4hSTug%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -649,7 +679,7 @@
     <div class="meta"><span class="company">🏢 EVOLVEX TECHNOLOGY</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ff4d4d;color:#fff">Laravel</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-laravel-developer-at-evolvex-technology-4399537104?position=2&amp;pageNum=0&amp;refId=%2BN7ea2prQVmjF%2FtFfArFOA%3D%3D&amp;trackingId=fL%2BfaKehfHhlqCz1QBseKw%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-laravel-developer-at-evolvex-technology-4399537104?position=2&amp;pageNum=0&amp;refId=dH40z0525BhOaizQ%2FBtoBg%3D%3D&amp;trackingId=YhFhq6ghSdJ0c4ITpWPRmQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -663,7 +693,7 @@
     <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-backend-workflow-engineer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399620590?position=3&amp;pageNum=0&amp;refId=%2BN7ea2prQVmjF%2FtFfArFOA%3D%3D&amp;trackingId=uQFESjIg2Y68y8kS%2FnxyeA%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-backend-workflow-engineer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399620590?position=3&amp;pageNum=0&amp;refId=dH40z0525BhOaizQ%2FBtoBg%3D%3D&amp;trackingId=yjyBjtIHVlTomjO0rGV%2FvA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -677,7 +707,7 @@
     <div class="meta"><span class="company">🏢 PULSE (EMEA REGION)</span><span class="location">📍 Dubai, Dubai, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/remote-junior-front-end-developer-at-pulse-emea-region-4401585111?position=1&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=F0znLc55EGcLLfLkgjshww%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/remote-junior-front-end-developer-at-pulse-emea-region-4401585111?position=1&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=6qDc3wyWFjbfWDGE4Jgjcg%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -691,7 +721,7 @@
     <div class="meta"><span class="company">🏢 Salt</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-at-salt-4399518484?position=10&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=7TUlwoVxM%2BJsTb5TfnxK5Q%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/full-stack-engineer-at-salt-4399518484?position=10&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=sHs%2FHUv2R7N1IQ%2FwYZ3nbQ%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -705,7 +735,7 @@
     <div class="meta"><span class="company">🏢 Halian | Managed Services, Recruitment Agency & Contract Staffing</span><span class="location">📍 Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#20232a;color:#111">React Native</span> <span class="tag" style="background:#61dafb;color:#fff">React</span> <span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/react-native-mobile-developer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399625490?position=23&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=W6Me2xMf%2FGSjtK8xtUsyjg%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/react-native-mobile-developer-m-f-d-at-halian-managed-services-recruitment-agency-contract-staffing-4399625490?position=23&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=TS4MII0wOW6BYqD8i5osFg%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -719,7 +749,7 @@
     <div class="meta"><span class="company">🏢 Jobgether</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#68a063;color:#fff">Node.js</span> <span class="tag" style="background:#6366f1;color:#fff">Backend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-backend-developer-node-js-at-jobgether-4399632814?position=26&amp;pageNum=0&amp;refId=fwdEO%2BDwpW0CKpKZ0eRBVQ%3D%3D&amp;trackingId=znJTgFdWs2j9Z5lS9ycT9Q%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-backend-developer-node-js-at-jobgether-4399632814?position=26&amp;pageNum=0&amp;refId=Q4aKy2SsKxGE9tMUNg0fsg%3D%3D&amp;trackingId=JzdrWiyGYQa%2B%2BFERLUwLNA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -733,7 +763,7 @@
     <div class="meta"><span class="company">🏢 Analog</span><span class="location">📍 Abu Dhabi, Abu Dhabi Emirate, United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#ec4899;color:#fff">Frontend</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-frontend-engineer-at-analog-4401095223?position=8&amp;pageNum=0&amp;refId=3889dhqQzdHCMbuaJztkVw%3D%3D&amp;trackingId=X6RrxEsX6wRMMXHFLmA%2BoQ%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/senior-frontend-engineer-at-analog-4401095223?position=8&amp;pageNum=0&amp;refId=PWTLX5ODh4DYtAH7vbvTvg%3D%3D&amp;trackingId=O4siGBT3%2Fisl6EhnlDdyjA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
@@ -747,7 +777,7 @@
     <div class="meta"><span class="company">🏢 Shine.com</span><span class="location">📍 United Arab Emirates</span></div>
     <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
     <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
-    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/mobile-developer-jobs-in-luxembourg-canada-australia-new-zealand-ireland-sweden-at-shine-com-4399159266?position=2&amp;pageNum=0&amp;refId=JTAiieZEL%2BQMOvVMLVuSwQ%3D%3D&amp;trackingId=UgLK3RVRnLPy5b%2F2RUEo1Q%3D%3D" target="_blank" rel="noopener">
+    <a class="apply-btn" href="https://ae.linkedin.com/jobs/view/mobile-developer-jobs-in-luxembourg-canada-australia-new-zealand-ireland-sweden-at-shine-com-4399159266?position=2&amp;pageNum=0&amp;refId=bQTctO4U0edSvWAKu0US%2BA%3D%3D&amp;trackingId=Z80x0tr9kzmF8LzlGTy9YA%3D%3D" target="_blank" rel="noopener">
       View &amp; Apply →
     </a>
   </div>
