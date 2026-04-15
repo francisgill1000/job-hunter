@@ -238,6 +238,7 @@ function buildReport(jobs, date, minSalary) {
     padding: 16px;
     display: flex; flex-direction: column; gap: 8px;
     transition: border-color .15s, transform .1s;
+    position: relative; z-index: 0;
   }
   .card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .card.hidden { display: none; }
