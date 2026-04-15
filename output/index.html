@@ -1,494 +1,669 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Job Hunt — Wednesday, 15 April 2026</title>
-<style>
-  :root {
-    --bg:      #0f0f1a;
-    --surface: #1a1a2e;
-    --card:    #16213e;
-    --border:  #2a2a4a;
-    --text:    #e2e8f0;
-    --muted:   #94a3b8;
-    --accent:  #6366f1;
-    --green:   #22c55e;
-    --yellow:  #eab308;
-    --red:     #ef4444;
-    --new:     #f59e0b;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Job Hunt — Wednesday, 15 April 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --card: #16213e;
+      --border: #2a2a4a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #6366f1;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --new: #f59e0b;
+    }
 
-  /* ── Header ── */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 24px 12px;
-    position: sticky; top: 0; z-index: 10;
-  }
-  .header-top {
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 12px;
-  }
-  header h1 { font-size: 20px; color: var(--text); }
-  .header-meta { color: var(--muted); font-size: 13px; }
-  .counts { display: flex; gap: 12px; flex-wrap: wrap; }
-  .count-badge {
-    padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
-  }
-  .count-total  { background: var(--accent); color: #fff; }
-  .count-new    { background: var(--new);    color: #000; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* ── Stats pills ── */
-  .stats-row {
-    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;
-  }
-  .stat-pill {
-    border: 1px solid var(--border); border-radius: 20px;
-    padding: 2px 10px; font-size: 12px; color: var(--muted);
-  }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* ── Controls ── */
-  .controls {
-    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-  }
-  input[type=search] {
-    background: var(--card); border: 1px solid var(--border);
-    color: var(--text); padding: 6px 12px; border-radius: 6px;
-    outline: none; width: 220px; font-size: 13px;
-  }
-  input[type=search]:focus { border-color: var(--accent); }
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-  .filter-label { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
 
-  .filter-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 3px 10px; border-radius: 20px;
-    cursor: pointer; font-size: 12px; transition: all .15s;
-  }
-  .filter-btn:hover  { color: var(--text); border-color: #666; }
-  .filter-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+    header h1 {
+      font-size: 20px;
+      color: var(--text);
+    }
 
-  .toggle-btn {
-    background: var(--card); border: 1px solid var(--border);
-    color: var(--muted); padding: 4px 12px; border-radius: 6px;
-    cursor: pointer; font-size: 12px; margin-left: auto;
-  }
-  .toggle-btn.active { color: var(--new); border-color: var(--new); }
+    .header-meta {
+      color: var(--muted);
+      font-size: 13px;
+      width: 100%;
+      /* Ensures it can wrap on small screens */
+    }
 
-  /* ── Grid ── */
-  main { padding: 20px 24px; }
-  #result-count { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+    .counts {
+      display: flex;
+      gap: 12px;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
-    gap: 16px;
-  }
+    .count-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
 
-  /* ── Job Card ── */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    display: flex; flex-direction: column; gap: 8px;
-    transition: border-color .15s, transform .1s;
-    position: relative; z-index: 0;
-  }
-  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .card.hidden { display: none; }
+    .count-total {
+      background: var(--accent);
+      color: #fff;
+    }
 
-  .card-header {
-    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-  }
-  .platform-badge {
-    padding: 2px 8px; border-radius: 12px;
-    font-size: 11px; font-weight: 700; color: #fff;
-  }
-  .date { color: var(--muted); font-size: 11px; margin-left: auto; }
+    .count-new {
+      background: var(--new);
+      color: #000;
+    }
 
-  .job-title {
-    font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3;
-  }
-  .meta { display: flex; flex-direction: column; gap: 2px; }
-  .company, .location { font-size: 12px; color: var(--muted); }
+    /* ── Stats ── */
+    .stats-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
 
-  .salary-row { }
-  .badge {
-    display: inline-block; padding: 2px 10px;
-    border-radius: 20px; font-size: 11px; font-weight: 600;
-  }
-  .badge-good    { background: #14532d; color: var(--green); }
-  .badge-low     { background: #422006; color: var(--yellow); }
-  .badge-unknown { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
-  .badge-new     { background: #78350f; color: var(--new); }
+    .stat-pill {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
 
-  .tags-row { display: flex; gap: 4px; flex-wrap: wrap; }
-  .tag {
-    padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600;
-  }
+    /* ── Controls ── */
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-  .apply-btn {
-    display: block; margin-top: 4px;
-    background: var(--accent);
-    color: #fff; text-decoration: none;
-    padding: 7px 14px; border-radius: 6px;
-    font-size: 13px; font-weight: 600; text-align: center;
-    transition: opacity .15s;
-  }
-  .apply-btn:hover { opacity: .85; }
+    input[type=search] {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      outline: none;
+      width: 250px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
 
-  /* ── Empty state ── */
-  #empty {
-    text-align: center; padding: 60px 20px;
-    color: var(--muted); display: none;
-  }
-  #empty h2 { font-size: 18px; margin-bottom: 8px; }
+    input[type=search]:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
 
-  /* ── Mobile ── */
-  @media (max-width: 600px) {
-    header { padding: 12px 14px 10px; }
-    header h1 { font-size: 17px; }
-    .header-meta { font-size: 11px; }
-    .header-top { gap: 8px; margin-bottom: 8px; }
+    .filter-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-    .stats-row { gap: 5px; margin-bottom: 6px; }
+    .filter-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
 
-    .controls { gap: 8px; }
-    input[type=search] { width: 100%; font-size: 16px; /* prevents iOS zoom */ }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 4px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all .15s;
+    }
 
-    .filter-group { gap: 5px; }
-    .filter-btn, .toggle-btn { padding: 6px 12px; font-size: 12px; min-height: 34px; }
-    .toggle-btn { margin-left: 0; }
+    .filter-btn:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
 
-    main { padding: 14px; }
-    .grid { grid-template-columns: 1fr; gap: 12px; }
+    .filter-btn.active {
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
 
-    .card { padding: 14px; }
-    .job-title { font-size: 15px; }
+    .toggle-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-left: auto;
+    }
+
+    .toggle-btn.active {
+      color: var(--new);
+      border-color: var(--new);
+    }
+
+    /* ── Main Grid ── */
+    main {
+      padding: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    #result-count {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .grid {
+      display: grid;
+      /* Updated grid logic for better responsiveness */
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+      gap: 20px;
+    }
+
+    /* ── Job Card ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .card.hidden {
+      display: none;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .platform-badge {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .job-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .salary-row {
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-unknown {
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .tags-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
 
     .apply-btn {
-      padding: 12px 14px;
-      font-size: 15px;
-      min-height: 48px;
-      display: flex; align-items: center; justify-content: center;
+      margin-top: auto;
+      /* Pushes button to bottom of card */
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      transition: opacity 0.2s;
     }
-  }
-</style>
+
+    .apply-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* ── Mobile Overrides ── */
+    @media (max-width: 600px) {
+      header {
+        padding: 16px;
+      }
+
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      input[type=search] {
+        width: 100%;
+        font-size: 16px;
+        /* Essential for preventing iOS zoom */
+        padding: 12px;
+      }
+
+      .toggle-btn {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      .filter-group {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 8px;
+        width: 100%;
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .grid {
+        gap: 16px;
+      }
+
+      .apply-btn {
+        padding: 14px;
+        /* Larger touch target */
+        font-size: 15px;
+      }
+    }
+
+    #empty {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <div class="header-top">
-    <h1>Job Hunt Results</h1>
-    <div class="counts">
-      <span class="count-badge count-total">12 jobs found</span>
-      
-    </div>
-    <span class="header-meta">Searched: Wednesday, 15 April 2026 &nbsp;|&nbsp; Min salary: 7,000 AED</span>
-  </div>
+  <header>
+    <div class="header-top">
+      <h1>Job Hunt Results</h1>
+      <div class="counts">
+        <span class="count-badge count-total">12 jobs found</span>
 
-  <div class="stats-row"><div class="stat-pill" style="border-color:#2164f3">Indeed: <strong>12</strong></div></div>
-  <div class="stats-row"><div class="stat-pill">Full-Stack: <strong>5</strong></div><div class="stat-pill">Mobile: <strong>1</strong></div></div>
-
-  <div class="controls">
-    <input type="search" id="search-box" placeholder="Search title / company…">
-
-    <div class="filter-group">
-      <span class="filter-label">Platform:</span>
-      <button class="filter-btn" data-filter="platform" data-value="Indeed" style="border-color:#2164f3">Indeed</button>
+      </div>
+      <span class="header-meta">Searched: Wednesday, 15 April 2026 &nbsp;|&nbsp; Min salary: 7,000 AED</span>
     </div>
 
-    <div class="filter-group">
-      <span class="filter-label">Tech:</span>
-      <button class="filter-btn" data-filter="tag" data-value="Full-Stack">Full-Stack</button><button class="filter-btn" data-filter="tag" data-value="Mobile">Mobile</button>
+    <div class="stats-row">
+      <div class="stat-pill" style="border-color:#2164f3">Indeed: <strong>12</strong></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-pill">Full-Stack: <strong>5</strong></div>
+      <div class="stat-pill">Mobile: <strong>1</strong></div>
     </div>
 
-    <button class="toggle-btn" id="new-only-btn">Show new only</button>
-  </div>
-</header>
+    <div class="controls">
+      <input type="search" id="search-box" placeholder="Search title / company…">
 
-<main>
-  <div id="result-count"></div>
-  <div class="grid" id="grid">
-    <div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Full Stack Developer</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=915058c604339385" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Tender &amp; Bid Coordinator Arabic/English (Defense &amp; Government) Abu Dhabi, UAE</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=a2b111e1a5e91636" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Project-based Software Developer</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=17d361c2315c29de" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">WordPress WooCommerce Developer - Remote</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=71ec5cd693672c9c" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Shopify Developer - Remote</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=2112480c3f286ab4" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Full-Stack Developer - Finance &amp; HR Systems</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=513cddf373441e33" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Web Development Lead</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=ccdf942287a8ee8c" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="Mobile" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Mobile Application Developer</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=f2e2715e885fa524" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Magento eCommerce Developer - Remote</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=9e5d2733b8c87918" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Full-Stack Developer - Digital Portal &amp; User Experience</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=275dc8ed124bb6d5" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Full-Stack Developer - Government Integrations &amp; Compliance</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=1cbe9a12082b0a3d" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-<div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
-    <div class="card-header">
-      <span class="platform-badge" style="background:#2164f3">Indeed</span>
-      
-      
-    </div>
-    <h3 class="job-title">Senior Full-Stack Developer (Technical Lead)</h3>
-    <div class="meta"></div>
-    <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
-    <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
-    <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=7f39a8455e7e8b2e" target="_blank" rel="noopener">
-      View &amp; Apply →
-    </a>
-  </div>
-  </div>
-  <div id="empty">
-    <h2>No jobs match your filters</h2>
-    <p>Try removing some filters or running the hunt again tomorrow.</p>
-  </div>
-</main>
+      <div class="filter-group">
+        <span class="filter-label">Platform:</span>
+        <button class="filter-btn" data-filter="platform" data-value="Indeed"
+          style="border-color:#2164f3">Indeed</button>
+      </div>
 
-<script>
-(function () {
-  const grid        = document.getElementById('grid');
-  const searchBox   = document.getElementById('search-box');
-  const newOnlyBtn  = document.getElementById('new-only-btn');
-  const resultCount = document.getElementById('result-count');
-  const emptyState  = document.getElementById('empty');
+      <div class="filter-group">
+        <span class="filter-label">Tech:</span>
+        <button class="filter-btn" data-filter="tag" data-value="Full-Stack">Full-Stack</button><button
+          class="filter-btn" data-filter="tag" data-value="Mobile">Mobile</button>
+      </div>
 
-  const state = {
-    query:      '',
-    platforms:  new Set(),
-    tags:       new Set(),
-    newOnly:    false,
-  };
+      <button class="toggle-btn" id="new-only-btn">Show new only</button>
+    </div>
+  </header>
 
-  function applyFilters() {
-    const cards  = grid.querySelectorAll('.card');
-    let visible  = 0;
+  <main>
+    <div id="result-count"></div>
+    <div class="grid" id="grid">
+      <div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
 
-    cards.forEach((card) => {
-      const title    = card.querySelector('.job-title')?.textContent?.toLowerCase() || '';
-      const company  = card.querySelector('.company')?.textContent?.toLowerCase() || '';
-      const platform = card.dataset.platform || '';
-      const tags     = card.dataset.tags ? card.dataset.tags.split(',') : [];
-      const isNew    = card.dataset.new === '1';
 
-      let show = true;
+        </div>
+        <h3 class="job-title">Full Stack Developer</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=915058c604339385" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
 
-      // Text search
-      if (state.query) {
-        const q = state.query.toLowerCase();
-        if (!title.includes(q) && !company.includes(q)) show = false;
+
+        </div>
+        <h3 class="job-title">Tender &amp; Bid Coordinator Arabic/English (Defense &amp; Government) Abu Dhabi, UAE</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=a2b111e1a5e91636" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Project-based Software Developer</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=17d361c2315c29de" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">WordPress WooCommerce Developer - Remote</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=71ec5cd693672c9c" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Shopify Developer - Remote</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=2112480c3f286ab4" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Full-Stack Developer - Finance &amp; HR Systems</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=513cddf373441e33" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Web Development Lead</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=ccdf942287a8ee8c" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="Mobile" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Mobile Application Developer</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"><span class="tag" style="background:#f59e0b;color:#fff">Mobile</span></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=f2e2715e885fa524" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Magento eCommerce Developer - Remote</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=9e5d2733b8c87918" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Full-Stack Developer - Digital Portal &amp; User Experience</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=275dc8ed124bb6d5" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Full-Stack Developer - Government Integrations &amp; Compliance</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=1cbe9a12082b0a3d" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+      <div class="card" data-tags="Full-Stack" data-platform="Indeed" data-new="0">
+        <div class="card-header">
+          <span class="platform-badge" style="background:#2164f3">Indeed</span>
+
+
+        </div>
+        <h3 class="job-title">Senior Full-Stack Developer (Technical Lead)</h3>
+        <div class="meta"></div>
+        <div class="salary-row"><span class="badge badge-unknown">Salary not disclosed</span></div>
+        <div class="tags-row"><span class="tag" style="background:#a855f7;color:#fff">Full-Stack</span></div>
+        <a class="apply-btn" href="https://ae.indeed.com/viewjob?jk=7f39a8455e7e8b2e" target="_blank" rel="noopener">
+          View &amp; Apply →
+        </a>
+      </div>
+    </div>
+    <div id="empty">
+      <h2>No jobs match your filters</h2>
+      <p>Try removing some filters or running the hunt again tomorrow.</p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const grid = document.getElementById('grid');
+      const searchBox = document.getElementById('search-box');
+      const newOnlyBtn = document.getElementById('new-only-btn');
+      const resultCount = document.getElementById('result-count');
+      const emptyState = document.getElementById('empty');
+
+      const state = {
+        query: '',
+        platforms: new Set(),
+        tags: new Set(),
+        newOnly: false,
+      };
+
+      function applyFilters() {
+        const cards = grid.querySelectorAll('.card');
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const title = card.querySelector('.job-title')?.textContent?.toLowerCase() || '';
+          const company = card.querySelector('.company')?.textContent?.toLowerCase() || '';
+          const platform = card.dataset.platform || '';
+          const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+          const isNew = card.dataset.new === '1';
+
+          let show = true;
+
+          // Text search
+          if (state.query) {
+            const q = state.query.toLowerCase();
+            if (!title.includes(q) && !company.includes(q)) show = false;
+          }
+
+          // Platform filter (OR logic — any selected platform matches)
+          if (show && state.platforms.size > 0) {
+            if (!state.platforms.has(platform)) show = false;
+          }
+
+          // Tag filter (AND logic — all selected tags must be present)
+          if (show && state.tags.size > 0) {
+            for (const t of state.tags) {
+              if (!tags.includes(t)) { show = false; break; }
+            }
+          }
+
+          // New-only toggle
+          if (show && state.newOnly && !isNew) show = false;
+
+          card.classList.toggle('hidden', !show);
+          if (show) visible++;
+        });
+
+        resultCount.textContent = `Showing ${visible} of 12 jobs`;
+        emptyState.style.display = visible === 0 ? 'block' : 'none';
+        grid.style.display = visible === 0 ? 'none' : '';
       }
 
-      // Platform filter (OR logic — any selected platform matches)
-      if (show && state.platforms.size > 0) {
-        if (!state.platforms.has(platform)) show = false;
-      }
+      // Search input
+      searchBox.addEventListener('input', (e) => {
+        state.query = e.target.value.trim();
+        applyFilters();
+      });
 
-      // Tag filter (AND logic — all selected tags must be present)
-      if (show && state.tags.size > 0) {
-        for (const t of state.tags) {
-          if (!tags.includes(t)) { show = false; break; }
-        }
-      }
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const type = btn.dataset.filter;
+          const value = btn.dataset.value;
+          const set = type === 'platform' ? state.platforms : state.tags;
+
+          if (set.has(value)) {
+            set.delete(value);
+            btn.classList.remove('active');
+          } else {
+            set.add(value);
+            btn.classList.add('active');
+          }
+          applyFilters();
+        });
+      });
 
       // New-only toggle
-      if (show && state.newOnly && !isNew) show = false;
+      newOnlyBtn.addEventListener('click', () => {
+        state.newOnly = !state.newOnly;
+        newOnlyBtn.classList.toggle('active', state.newOnly);
+        newOnlyBtn.textContent = state.newOnly ? 'Show all' : 'Show new only';
+        applyFilters();
+      });
 
-      card.classList.toggle('hidden', !show);
-      if (show) visible++;
-    });
-
-    resultCount.textContent = `Showing ${visible} of 12 jobs`;
-    emptyState.style.display = visible === 0 ? 'block' : 'none';
-    grid.style.display       = visible === 0 ? 'none'  : '';
-  }
-
-  // Search input
-  searchBox.addEventListener('input', (e) => {
-    state.query = e.target.value.trim();
-    applyFilters();
-  });
-
-  // Filter buttons
-  document.querySelectorAll('.filter-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const type  = btn.dataset.filter;
-      const value = btn.dataset.value;
-      const set   = type === 'platform' ? state.platforms : state.tags;
-
-      if (set.has(value)) {
-        set.delete(value);
-        btn.classList.remove('active');
-      } else {
-        set.add(value);
-        btn.classList.add('active');
-      }
       applyFilters();
-    });
-  });
-
-  // New-only toggle
-  newOnlyBtn.addEventListener('click', () => {
-    state.newOnly = !state.newOnly;
-    newOnlyBtn.classList.toggle('active', state.newOnly);
-    newOnlyBtn.textContent = state.newOnly ? 'Show all' : 'Show new only';
-    applyFilters();
-  });
-
-  applyFilters();
-})();
-</script>
+    })();
+  </script>
 </body>
+
 </html>
