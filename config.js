@@ -6,7 +6,6 @@ module.exports = {
     'react developer',
     'vue.js',
     'react native',
-    'electron developer',
   ],
 
   // ── Location ────────────────────────────────────────────────────
@@ -24,10 +23,8 @@ module.exports = {
 
   // ── Platforms to enable ─────────────────────────────────────────
   platforms: {
-    linkedin:   true,
-    indeed:     true,
-    bayt:       true,
-    naukrigulf: true,
+    linkedin: true,
+    indeed: true,
   },
 
   // ── Browser ─────────────────────────────────────────────────────
@@ -37,7 +34,7 @@ module.exports = {
 
   // ── Output paths ────────────────────────────────────────────────
   outputDir: './output',
-  dataDir:   './data',
+  dataDir: './data',
 
   // Open the HTML report automatically when done
   autoOpen: true,
